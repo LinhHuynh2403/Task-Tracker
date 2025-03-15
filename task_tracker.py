@@ -69,10 +69,17 @@ def add_task():
         except ValueError:
             print("Invalid input. Please enter a valid number.")
 
-    task = input("What is the task? ")
-    description = input("What is the best description for this task? ")
-    status = input("What is the status of the task? Finished? In progress? Not done? ")
-    create_at = input("What date is today? ")
+    task = input("What is the task? ").strip()
+    description = input("What is the best description for this task? ").strip()
+    
+    # check valid status
+    valid_status = {"finished", "done", "not done", "in progress"}
+    while True:
+        status = input("What is the status of the task? Finished/In progress/Not done? ").strip().lower()   # in case user enter any upper or lower case
+        if status in valid_status:
+            break
+        print("Invalid status. Please enter valid status.")
+    create_at = input("What date is today? ").strip()
 
     # create a task dictionary
     new_task = {

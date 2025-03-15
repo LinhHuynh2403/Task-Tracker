@@ -32,9 +32,9 @@ def main():
         2: delete_task,
         3: update_task,
         4: mark_done_or_in_progress,
-        5: list_task_in_progress,
-        6: list_task_done,
-        7: list_task_not_done,
+        5: list_task_done,
+        6: list_task_not_done,
+        7: list_task_in_progress,
     }
 
     # call the selected function
@@ -43,23 +43,31 @@ def main():
 
 # function check valid ID that is already existed in the tasks list
 def valid_id(id, task_list):
-    for task in task_list:
-        # if the id is already taken, invalid id
+    if not isinstance(id, int):
+        print("Invalid ID. Please enter a valid number.")
+        return False
+    
+    for task in tasks_list:
         if task["id"] == id:
-            return False  
+            print(f"Task with ID {id} is already taken. Please choose another ID.")
+            return False
     return True
 
 # function add task
 def add_task(): 
     global tasks_list
     tasks_list = read_file()
-    #get user input for the task detail
-    id = int(input("Please enter the ID of the task: "))
 
-    while not valid_id(id, tasks_list): 
-        print("The ID is already taken.")
-        id = int(input("Please enter the ID of the task: "))
-
+    # get user input for task details
+    while True:
+        try:
+            id = int(input("Please enter the ID of the task: "))
+            if valid_id(id, tasks_list):       # ensure that the ID is unique
+                break
+            else: 
+                print("The ID is already taken. Please enter another ID.")
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
 
     task = input("What is the task? ")
     description = input("What is the best description for this task? ")
@@ -80,10 +88,18 @@ def add_task():
 
     print(f"Task with ID '{id}' added successfully to the tracker.")
 
+    print("\nHere all the tasks: ")
+    for task in tasks_list:
+        print_task(task)
+
 # function delete task
 def delete_task():
     global tasks_list
     tasks_list = read_file()
+
+    print("\nHere all the tasks: ")
+    for task in tasks_list:
+        print_task(task)
 
     while True:
         print("Which task do you want to delete?")
@@ -109,6 +125,10 @@ def update_task():
     tasks_list = read_file()
     task_found = None      # type dictionary
 
+    print("\nHere all the tasks: ")
+    for task in tasks_list:
+        print_task(task)
+
     # check if valid id
     while True: 
         try:
@@ -133,7 +153,7 @@ def update_task():
     print("\nWhat would you like to update?")
     print("1. Task Name")
     print("2. Description")
-    print("3. Status (Finished, In Progress, Not Done)")
+    print("3. Status (Finished, In Progress, Not Done)\n")
 
     while True:
         try:
@@ -162,6 +182,7 @@ def list_task_done():
     global tasks_list
     tasks_list = read_file()
     done_task = []
+
     for task in tasks_list:
         if task["status"].lower() == "done" or task["status"].lower() == "finished":
             done_task.append(task)
@@ -176,20 +197,51 @@ def list_task_done():
     print("---------------------------")
 
 def list_task_not_done():
-    pass
+    global tasks_list
+    tasks_list = read_file()
+    not_done_task = []
+
+    for task in tasks_list:
+        if task["status"].lower().strip() == "not done" or task["status"].lower().strip() == "unfinished":
+            not_done_task.append(task)
+            
+    if not not_done_task:
+        print("No tasks are marked as undone/unfished.")
+    else:
+        print("\n===== Uninished Tasks =====")
+        for task in not_done_task:
+            print_task(task)
+
+    print("---------------------------")
+
 def list_task_in_progress():
-    pass
+    global tasks_list
+    tasks_list = read_file()
+    in_progress_task = []
+
+    for task in tasks_list:
+        if task["status"].lower().strip() == "in progress":
+            in_progress_task.append(task)
+            
+    if not in_progress_task:
+        print("No tasks are marked as in progress.")
+    else:
+        print("\n===== Uninished Tasks =====")
+        for task in in_progress_task:
+            print_task(task)
+
+    print("---------------------------")
+
 
 # function that mark the task that is done or in progress
 def mark_done_or_in_progress():
     global tasks_list
     tasks_list = read_file()
 
-    print("\nHere are the tasks: ")
+    print("\nHere all the tasks: ")
     for task in tasks_list:
         print_task(task)
-        print("\n")
-    
+
     while True:
         try:
             # in this we will ask for what ID/task they want to mark as done
@@ -198,7 +250,7 @@ def mark_done_or_in_progress():
 
             for task in tasks_list:
                 if task["id"] == id:
-                    task["status"] = input("Enter the status: ")
+                    task["status"] = input("Enter new status: ").strip()    # using strip to get rid of any unnecessary spaces
                     task_found = True
                     write_file(tasks_list)      # save changes only when task is found
                     print(f"Task with ID {id} updated successfully.")
@@ -233,9 +285,10 @@ def print_task(task):
     print(f"Task Name: {task["task"]}")
     print(f"Description: {task["description"]}")
     print(f"Status: {task["status"]}")
+    print(f"Create at: {task["create_at"]}")
+    print("\n")
     
-    write_file(tasks_list)
-
+    
 # run the program to test 
 if __name__ == "__main__":
     main()

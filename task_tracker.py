@@ -1,6 +1,7 @@
 import json 
 
 tasks_list = []
+
 # function to print the welcome message
 def main():
     print("Welcome to the task tracker")
@@ -63,13 +64,15 @@ def add_task():
     task = input("What is the task? ")
     description = input("What is the best description for this task? ")
     status = input("What is the status of the task? Finished? In progress? Not done? ")
+    create_at = input("What date is today? ")
 
     # create a task dictionary
     new_task = {
         "id": id,
         "task": task,
         "description": description,
-        "status": status
+        "status": status,
+        "create_at": create_at,
     }
 
     tasks_list.append(new_task)
@@ -103,7 +106,58 @@ def delete_task():
 
 # function update task
 def update_task():
-    pass
+    global tasks_list
+    tasks_list = read_file()
+
+    # check if valid id
+    while True: 
+        try:
+            id = int(input("Please enter the ID of the task you want to update: "))
+            task_found = None      # type dictionary
+            for task in tasks_list:
+                if task["id"] == id:
+                    task_found = task
+                    break
+
+            if task_found:
+                print(f"ID: {task_found['id']}")
+                print(f"Task Name: {task_found['task']}")
+                print(f"Description: {task_found['description']}")
+                print(f"Status: {task_found['status']}")
+                break   # exit the loop when see a valid ID
+            
+            print(f"Task with id {id} not found.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+    # ask the user which category they want to update
+    print("\nWhat would you like to update?")
+    print("1. Task Name")
+    print("2. Description")
+    print("3. Status (Finished, In Progress, Not Done)")
+
+    while True:
+        try:
+            choice = int(input("Enter your choice from 1 to 3: "))
+            if choice in [1,2,3]:
+                break
+            print("Invalid option. Please enter a number from 1 to 3.")
+        except ValueError:
+            print("Invalid input. Pleaser enter a number.")
+
+    # update the selected field in task_found
+    if choice == 1:
+        task_found["task"] = input("Enter new task name: ")
+    elif choice == 2:
+        task_found["description"] = input("Enter new description: ")
+    elif choice == 3:
+        task_found["status"] = input("Enter new status (Finished, In Progress, Not Done): ")
+
+    # After updating the task, save the updated tasks_list to the file
+    write_file(tasks_list)
+    print(f"Task with id '{id}' has been updated successfully.")
+
+
 # function list task
 def list_task_done():
     pass

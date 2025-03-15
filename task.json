@@ -3,7 +3,7 @@
         "id": 1,
         "task": "qrgqrgi13t1h2",
         "description": "agagagfgsthstht",
-        "status": "done"
+        "status": "in progress"
     },
     {
         "id": 2,
@@ -21,7 +21,7 @@
         "id": 4,
         "task": "agagagag",
         "description": "buy pork, beef and chicken",
-        "status": "in progress"
+        "status": "done"
     },
     {
         "id": 5,

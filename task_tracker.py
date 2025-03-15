@@ -13,7 +13,7 @@ def main():
         print("4. Mark task in progress or done")
         print("5. List all tasks that are done")
         print("6. List all tasks that are not done")
-        print("6. List all tasks that are in progress")
+        print("7. List all tasks that are in progress")
 
         try:
             action = int(input("Please choose one: "))  # convert to int
@@ -26,15 +26,15 @@ def main():
             print("\n")
             print("Invalid input. Please enter a number.")
 
-
     # dictionary (hashmap in java)
     options = {
         1: add_task,
         2: delete_task,
         3: update_task,
-        4: list_task_in_progress,
-        5: list_task_done,
-        6: list_task_not_done,
+        4: mark_done_or_in_progress,
+        5: list_task_in_progress,
+        6: list_task_done,
+        7: list_task_not_done,
     }
 
     # call the selected function
@@ -174,19 +174,42 @@ def list_task_done():
             print_task(task)
 
     print("---------------------------")
-    
+
 def list_task_not_done():
     pass
 def list_task_in_progress():
     pass
 
-# function that mark the task that is done 
-def mark_done():
-    pass
+# function that mark the task that is done or in progress
+def mark_done_or_in_progress():
+    global tasks_list
+    tasks_list = read_file()
 
-# function that mark the task that is in progress
-def mark_in_progress():
-    pass
+    print("\nHere are the tasks: ")
+    for task in tasks_list:
+        print_task(task)
+        print("\n")
+    
+    while True:
+        try:
+            # in this we will ask for what ID/task they want to mark as done
+            id = int(input("What task you want to update the status? "))
+            task_found = False
+
+            for task in tasks_list:
+                if task["id"] == id:
+                    task["status"] = input("Enter the status: ")
+                    task_found = True
+                    write_file(tasks_list)      # save changes only when task is found
+                    print(f"Task with ID {id} updated successfully.")
+                    return
+            if not task_found:
+                print(f"The ID {id} you choose not found. Please choose a valid ID.")
+        
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+        
+
 def read_file():
     global tasks_list
     # Read current tasks from the file (if exists)

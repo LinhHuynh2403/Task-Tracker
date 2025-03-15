@@ -1,0 +1,3 @@
+list all the task that is marked as "Done" "Finished" 
+
+loop through the tasks_list and check if all the list 

@@ -103,27 +103,26 @@ def delete_task():
         except ValueError:
             print("Invalid input. Please enter a valid number for the task ID.")
 
-
 # function update task
 def update_task():
     global tasks_list
     tasks_list = read_file()
+    task_found = None      # type dictionary
 
     # check if valid id
     while True: 
         try:
             id = int(input("Please enter the ID of the task you want to update: "))
-            task_found = None      # type dictionary
             for task in tasks_list:
                 if task["id"] == id:
                     task_found = task
                     break
 
             if task_found:
-                print(f"ID: {task_found['id']}")
-                print(f"Task Name: {task_found['task']}")
-                print(f"Description: {task_found['description']}")
-                print(f"Status: {task_found['status']}")
+                print(f"Here is the task with id {id}: ")
+                print(f"Task Name: {task_found["task"]}")
+                print(f"Description: {task_found["description"]}")
+                print(f"Status: {task_found["status"]}")
                 break   # exit the loop when see a valid ID
             
             print(f"Task with id {id} not found.")
@@ -160,12 +159,34 @@ def update_task():
 
 # function list task
 def list_task_done():
-    pass
+    global tasks_list
+    tasks_list = read_file()
+    done_task = []
+    for task in tasks_list:
+        if task["status"].lower() == "done" or task["status"].lower() == "finished":
+            done_task.append(task)
+
+    if not done_task:
+        print("No tasks are marked as done.")
+    else:
+        print("\n===== Finished Tasks =====")
+        for task in done_task:
+            print_task(task)
+
+    print("---------------------------")
+    
 def list_task_not_done():
     pass
 def list_task_in_progress():
     pass
 
+# function that mark the task that is done 
+def mark_done():
+    pass
+
+# function that mark the task that is in progress
+def mark_in_progress():
+    pass
 def read_file():
     global tasks_list
     # Read current tasks from the file (if exists)
@@ -181,6 +202,17 @@ def write_file(tasks_list):
     with open("task.json", "w") as file:
         json.dump(tasks_list, file, indent=4)   # write the updated list back to the file with indent for readability
 
-# run the program to test
+def print_task(task):
+    global tasks_list
+    tasks_list = read_file()
+
+    print(f"ID: {task["id"]}")
+    print(f"Task Name: {task["task"]}")
+    print(f"Description: {task["description"]}")
+    print(f"Status: {task["status"]}")
+    
+    write_file(tasks_list)
+
+# run the program to test 
 if __name__ == "__main__":
     main()

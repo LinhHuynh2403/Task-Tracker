@@ -3,10 +3,46 @@
         "id": 1,
         "task": "qrgqrgi13t1h2",
         "description": "agagagfgsthstht",
-        "status": "13"
+        "status": "done"
     },
     {
         "id": 2,
+        "task": "agagagag",
+        "description": "buy pork, beef and chicken",
+        "status": "gagdgagas"
+    },
+    {
+        "id": 3,
+        "task": "qrgqrgi13t1h2",
+        "description": "agagagfgsthstht",
+        "status": "finished"
+    },
+    {
+        "id": 4,
+        "task": "agagagag",
+        "description": "buy pork, beef and chicken",
+        "status": "in progress"
+    },
+    {
+        "id": 5,
+        "task": "qrgqrgi13t1h2",
+        "description": "agagagfgsthstht",
+        "status": "done"
+    },
+    {
+        "id": 6,
+        "task": "agagagag",
+        "description": "buy pork, beef and chicken",
+        "status": "gagdgagas"
+    },
+    {
+        "id": 7,
+        "task": "qrgqrgi13t1h2",
+        "description": "agagagfgsthstht",
+        "status": "finished"
+    },
+    {
+        "id": 8,
         "task": "agagagag",
         "description": "buy pork, beef and chicken",
         "status": "in progress"

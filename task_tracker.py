@@ -4,9 +4,19 @@ tasks_list = []
 
 # function to print the welcome message
 def main():
+    global tasks_list
+    tasks_list = read_file()
+
     print("Welcome to the task tracker")
+    if not tasks_list:
+        print("\n*** Empty Task List ***\n")
+
+    print("\nHere all your tasks: ")
+    for task in tasks_list:
+        print_task(task)
+
     while True: 
-        print("Here are the options")
+        print("Here are the options:")
         print("1. Add task")
         print("2. Delete task")
         print("3. Update task")
